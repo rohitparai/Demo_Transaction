@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: peachpuff; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; 
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc; 
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  label {
+    margin-right: 10px;
+  }
+  
+  input[type="text"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 200px;
+  }
+  
+  select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  .transactions-list {
+    margin-top: 20px;
+  }
+  
+  .statistics,
+  .bar-chart,
+  .pie-chart {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .transactions-list > div,
+  .bar-chart > div,
+  .pie-chart > div {
+    margin-bottom: 5px;
+  }
+  
+  @media (max-width: 600px) {
+    .filters {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    select,
+    input[type="text"] {
+      width: 100%;
+    }
+  }
+  

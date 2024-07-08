@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Transactions</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>Product Transactions</h1>
+  <div>
+    <label for="month">Select Month:</label>
+    <select id="month">
+      <option value="January">January</option>
+      <option value="February">February</option>
+      <option value="March">March</option>
+      <!-- Add options for all months -->
+    </select>
+  </div>
+  <div>
+    <label for="search">Search Transactions:</label>
+    <input type="text" id="search" />
+  </div>
+  <button onclick="fetchTransactions()">Fetch Transactions</button>
+  <button onclick="initializeDatabase()">Initialize Database with Dummy Data</button>
+  <div id="transactions"></div>
+  <div id="statistics"></div>
+  <div id="bar-chart"></div>
+  <div id="pie-chart"></div>
+  <script>
+    async function fetchTransactions() {
+      const month = document.getElementById('month').value;
+      const search = document.getElementById('search').value;
+
+      try {
+        const response = await axios.get('/api/transactions', {
+          params: { month, search }
+        });
+
+        const transactions = response.data.transactions;
+        const transactionsDiv = document.getElementById('transactions');
+        transactionsDiv.innerHTML = transactions.map(t => `<div>${t.title} - ${t.price}</div>`).join('');
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      }
+    }
+
+    async function fetchStatistics() {
+      const month = document.getElementById('month').value;
+
+      try {
+        const response = await axios.get('/api/statistics', {
+          params: { month }
+        });
+
+        const statistics = response.data;
+        const statisticsDiv = document.getElementById('statistics');
+        statisticsDiv.innerHTML = `
+          <div>Total Sale Amount: ${statistics.totalSaleAmount}</div>
+          <div>Total Sold Items: ${statistics.totalSoldItems}</div>
+          <div>Total Not Sold Items: ${statistics.totalNotSoldItems}</div>
+        `;
+      } catch (error) {
+        console.error('Error fetching statistics:', error);
+      }
+    }
+
+    async function fetchBarChart() {
+      const month = document.getElementById('month').value;
+
+      try {
+        const response = await axios.get('/api/bar-chart', {
+          params: { month }
+        });
+
+        const barChart = response.data;
+        const barChartDiv = document.getElementById('bar-chart');
+        barChartDiv.innerHTML = barChart.map(b => `<div>${b.range}: ${b.count}</div>`).join('');
+      } catch (error) {
+        console.error('Error fetching bar chart:', error);
+      }
+    }
+
+    async function fetchPieChart() {
+      const month = document.getElementById('month').value;
+
+      try {
+        const response = await axios.get('/api/pie-chart', {
+          params: { month }
+        });
+
+        const pieChart = response.data;
+        const pieChartDiv = document.getElementById('pie-chart');
+        pieChartDiv.innerHTML = pieChart.map(p => `<div>${p._id}: ${p.count}</div>`).join('');
+      } catch (error) {
+        console.error('Error fetching pie chart:', error);
+      }
+    }
+
+    async function initializeDatabase() {
+      try {
+        const response = await axios.get('/api/initialize');
+        alert(response.data.message); // Show success message
+      } catch (error) {
+        console.error('Error initializing database:', error);
+        alert('Failed to initialize database'); // Show error message
+      }
+    }
+
+    document.getElementById('month').addEventListener('change', () => {
+      fetchTransactions();
+      fetchStatistics();
+      fetchBarChart();
+      fetchPieChart();
+    });
+
+    document.getElementById('search').addEventListener('input', fetchTransactions);
+
+    // Initialize with March data
+    document.getElementById('month').value = 'March';
+    fetchTransactions();
+    fetchStatistics();
+    fetchBarChart();
+    fetchPieChart();
+  </script>
+</body>
+</html>
